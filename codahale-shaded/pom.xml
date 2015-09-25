@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2015 Groupon.com
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.arpnetworking.metrics.extras</groupId>
+    <artifactId>codahale-extra-parent</artifactId>
+    <version>0.3.6-SNAPSHOT</version>
+  </parent>
+  <packaging>jar</packaging>
+
+  <artifactId>codahale-shaded</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.arpnetworking.metrics.extras</groupId>
+      <artifactId>codahale-extra</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <includeDependencySources>true</includeDependencySources>
+          <dependencySourceIncludes>
+            <dependencySourceInclude>com.arpnetworking.metrics.extras:*</dependencySourceInclude>
+          </dependencySourceIncludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>${maven.shade.plugin.version}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <createSourcesJar>true</createSourcesJar>
+          <minimizeJar>false</minimizeJar>
+          <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+          <artifactSet>
+            <includes>
+              <include>io.dropwizard.metrics</include>
+              <include>com.arpnetworking.metrics.extras:codahale-extra</include>
+            </includes>
+          </artifactSet>
+          <filters>
+            <filter>
+              <artifact>io.dropwizard.metrics:metrics-core</artifact>
+              <includes>
+                <include>com/codahale/metrics/Counter*.class</include>
+                <include>com/codahale/metrics/Histogram*.class</include>
+                <include>com/codahale/metrics/LongAdder.class</include>
+                <include>com/codahale/metrics/Meter.class</include>
+                <include>com/codahale/metrics/Meter$*.class</include>
+                <include>com/codahale/metrics/MetricRegistry.class</include>
+                <include>com/codahale/metrics/Striped64.class</include>
+                <include>com/codahale/metrics/Striped64$*.class</include>
+              </includes>
+              <excludes>
+                <exclude>com/codahale/metrics/Timer.class</exclude>
+                <exclude>com/codahale/metrics/Timer$*.class</exclude>
+              </excludes>
+            </filter>
+          </filters>
+          <relocations>
+            <relocation>
+              <pattern>com.codahale.metrics</pattern>
+              <shadedPattern>com.arpnetworking.metrics.codahale.shaded</shadedPattern>
+              <includes>
+                <include>com.codahale.metrics.Counter*</include>
+                <include>com.codahale.metrics.Histogram*</include>
+                <include>com.codahale.metrics.LongAdder</include>
+                <include>com.codahale.metrics.Meter</include>
+                <include>com.codahale.metrics.Meter$*</include>
+                <include>com.codahale.metrics.MetricRegistry</include>
+                <include>com.codahale.metrics.Striped64</include>
+                <include>com.codahale.metrics.Striped64$*</include>
+                <include>com.codahale.metrics.Timer</include>
+                <include>com.codahale.metrics.Timer$*</include>
+              </includes>
+            </relocation>
+            <relocation>
+              <pattern>com.arpnetworking.metrics.codahale</pattern>
+              <shadedPattern>com.codahale.metrics</shadedPattern>
+              <includes>
+                <include>com.arpnetworking.metrics.codahale.Counter</include>
+                <include>com.arpnetworking.metrics.codahale.Histogram</include>
+                <include>com.arpnetworking.metrics.codahale.Meter</include>
+                <include>com.arpnetworking.metrics.codahale.MetricRegistry</include>
+                <include>com.arpnetworking.metrics.codahale.Timer</include>
+                <include>com.arpnetworking.metrics.codahale.Timer$*</include>
+              </includes>
+            </relocation>
+          </relocations>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
