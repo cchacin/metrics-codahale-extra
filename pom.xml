@@ -21,19 +21,15 @@
     <relativePath/>
     <version>1.0.2</version>
   </parent>
+
   <modelVersion>4.0.0</modelVersion>
-  <name>Metrics Client Codahale Extra</name>
   <groupId>com.arpnetworking.metrics.extras</groupId>
   <artifactId>codahale-extra-parent</artifactId>
-  <version>0.3.6-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <name>Metrics Client Codahale Extra</name>
+  <description />
+  <version>0.3.6-SNAPSHOT</version>
 
-  <scm>
-    <connection>scm:git@github.com:ArpNetworking/metrics-codahale-extra.git</connection>
-    <developerConnection>scm:git@github.com:ArpNetworking/metrics-codahale-extra.git</developerConnection>
-    <url>https://github.com/arpnetworking/metrics-codahale-extra</url>
-    <tag>HEAD</tag>
-  </scm>
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
@@ -42,6 +38,7 @@
       <comments>A business-friendly OSS license</comments>
     </license>
   </licenses>
+
   <developers>
     <developer>
       <id>barp</id>
@@ -54,6 +51,13 @@
       </roles>
     </developer>
   </developers>
+
+  <scm>
+    <connection>scm:git@github.com:ArpNetworking/metrics-codahale-extra.git</connection>
+    <developerConnection>scm:git@github.com:ArpNetworking/metrics-codahale-extra.git</developerConnection>
+    <url>https://github.com/arpnetworking/metrics-codahale-extra</url>
+    <tag>HEAD</tag>
+  </scm>
 
   <modules>
     <module>codahale-replace</module>
@@ -94,56 +98,63 @@
     <maven.shade.plugin.version>2.4.1</maven.shade.plugin.version>
   </properties>
   <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin>
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>${maven.shade.plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
   <dependencyManagement>
     <!-- Logging -->
