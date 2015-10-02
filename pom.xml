@@ -96,6 +96,10 @@
 
     <!--Plugin versions-->
     <maven.shade.plugin.version>2.4.1</maven.shade.plugin.version>
+
+    <!-- Code Coverage -->
+    <jacoco.check.line.coverage>1.0</jacoco.check.line.coverage>
+    <jacoco.check.branch.coverage>1.0</jacoco.check.branch.coverage>
   </properties>
   <build>
     <pluginManagement>
