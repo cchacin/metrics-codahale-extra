@@ -33,7 +33,7 @@ import java.util.function.Consumer;
  */
 public class CounterTest {
     @Before
-    public void setup() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 

@@ -35,7 +35,7 @@ import java.util.function.Consumer;
  */
 public class TimerTest {
     @Before
-    public void setup() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 

@@ -34,7 +34,7 @@ import java.util.function.Consumer;
  */
 public class HistogramTest {
     @Before
-    public void setup() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 

@@ -33,7 +33,7 @@ import java.util.concurrent.locks.ReadWriteLock;
  */
 public class SafeRefLockTest {
     @Before
-    public void setup() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
