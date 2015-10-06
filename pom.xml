@@ -53,8 +53,8 @@
   </developers>
 
   <scm>
-    <connection>scm:git@github.com:ArpNetworking/metrics-codahale-extra.git</connection>
-    <developerConnection>scm:git@github.com:ArpNetworking/metrics-codahale-extra.git</developerConnection>
+    <connection>scm:git:git@github.com:ArpNetworking/metrics-codahale-extra.git</connection>
+    <developerConnection>scm:git:git@github.com:ArpNetworking/metrics-codahale-extra.git</developerConnection>
     <url>https://github.com/arpnetworking/metrics-codahale-extra</url>
     <tag>HEAD</tag>
   </scm>
