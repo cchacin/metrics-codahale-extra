@@ -19,7 +19,7 @@
     <groupId>com.arpnetworking.build</groupId>
     <artifactId>arpnetworking-parent-pom</artifactId>
     <relativePath />
-    <version>1.0.2</version>
+    <version>1.0.5</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -159,6 +159,13 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>com.rimerosolutions.maven.plugins</groupId>
+        <artifactId>wrapper-maven-plugin</artifactId>
+        <inherited>false</inherited>
+      </plugin>
+    </plugins>
   </build>
   <dependencyManagement>
     <dependencies>
