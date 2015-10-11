@@ -17,16 +17,12 @@ Codahale Extra
 Extension for clients migrating from Codahale metrics that allows migration to our client library while retaining publication to Codahale.
 
 
-Setup
------
+Instrumenting Your Codahale Application
+---------------------------------------
 
 ### Add Dependency
 
-Determine the latest version of the Codahale extra in [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.arpnetworking.metrics.extras%22%20a%3A%22codahale-extra%22).  Alternatively, install the current version locally:
-
-    > mvn install
-
-Using the local version is intended only for testing or development.
+Determine the latest version of the Codahale extra in [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.arpnetworking.metrics.extras%22%20a%3A%22codahale-extra%22).
 
 #### Maven
 
@@ -124,9 +120,20 @@ Prerequisites:
 * [Maven 3.2.5+](http://maven.apache.org/download.cgi)
 
 Building:
-    > mvn package
 
+    metrics-codahale-extra> ./mvnw package
 
+To use the local version you must first install it locally:
+
+    metrics-codahale-extra> ./mvnw install
+
+You can determine the version of the local build from the pom file.  Using the local version is intended only for testing or development.
+
+You may also need to add the local repository to your build in order to pick-up the local version:
+
+* Maven - Included by default.
+* Gradle - Add *mavenLocal()* to *build.gradle* in the *repositories* block.
+* SBT - Add *resolvers += Resolver.mavenLocal* into *project/plugins.sbt*.
 
 License
 -------
