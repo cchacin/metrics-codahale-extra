@@ -45,7 +45,7 @@ Add a dependency to your build.gradle:
     compile group: 'com.arpnetworking.metrics.extras', name: 'codahale-extra', version: 'VERSION'
 
 Add at least one of the Maven Central Repository and/or Local Repository into build.gradle:
- 
+
     mavenCentral()
     mavenLocal()
 
@@ -67,8 +67,8 @@ The Maven Central repository is included by default.  Alternatively, if using th
 
 ### Publishing via Codahale
 
-This extra package contains classes that can be used to supplement Codahale output.  The first way this can be done is to use the codahale-extra package and record all 
-metrics against a MetricsRgistry in the com.arpnetworking.metrics.codahale package.  This will allow existing code written against the Codahale metrics interfaces to work 
+This extra package contains classes that can be used to supplement Codahale output.  The first way this can be done is to use the codahale-extra package and record all
+metrics against a MetricsRgistry in the com.arpnetworking.metrics.codahale package.  This will allow existing code written against the Codahale metrics interfaces to work
 with ArpNetworking metrics, with the caveat that the use of static methods to create metrics is not supported.  This is the preferred method of using this library.
 
 ```java
@@ -78,39 +78,50 @@ Counter counter = registry.newCounter("foo");
 counter.inc();
 ```
 
-The other way to use this library is as a drop-in replacement.  Through the use of shading we have created the codahale-replace library that serves as a full 
+The other way to use this library is as a drop-in replacement.  Through the use of shading we have created the codahale-replace library that serves as a full
 replacement for Codahale metrics.  This is recommended for times when it is not possible to modify existing code that uses Codahale metrics.  To use this method,
-remove the metrics-core.jar from the classpath of the target application and add codahale-replace.jar in its place.  All use of Codahale metrics will instead be 
+remove the metrics-core.jar from the classpath of the target application and add codahale-replace.jar in its place.  All use of Codahale metrics will instead be
 sent to Arpnetworking metrics (including all static references).
 
+To configure the metrics library when employing a drop-in replacement you should set these environment variables:
+
+* METRICS_CODAHALE_EXTRA_CLUSTER - The name of the cluster that the running instance belong to.
+* METRICS_CODAHALE_EXTRA_SERVICE - The name of the service that the running instance is reporting for.
+* METRICS_CODAHALE_EXTRA_DIRECTORY - The directory to write the query log file to.
+
+All the environment variables have defaults but it is highly recommended that the values be set to more appropriate values.  The defaults are:
+
+* METRICS_CODAHALE_EXTRA_CLUSTER - CodahaleCluster
+* METRICS_CODAHALE_EXTRA_SERVICE - CodahaleService
+* METRICS_CODAHALE_EXTRA_DIRECTORY - /tmp
 
 #### Differences
 
-Codahale metrics provides some interfaces that ArpNetworking metrics does not.  For instance, there is no Meter in ArpNetworking metrics, 
+Codahale metrics provides some interfaces that ArpNetworking metrics does not.  For instance, there is no Meter in ArpNetworking metrics,
 and counters act differently in Codahale than here.  This section will detail the differences.
 
 ##### Counter
 
-Both Codahale and ArpNetworking metrics contain counters that can be incremented by 1 or any arbitrary number.  The difference is in 
-ArpNetworking metrics' separation of units of work and tracking individual samples.  This impedance mismatch is solved by storing each 
-call to Codahale's counter inc as a separate sample in ArpNetworking metrics.  This means that loops where inc() is called multiple times 
-will translate to multiple samples of '1'.  Normally this will not be a problem and the expected value of the Codahale metric will be in 
+Both Codahale and ArpNetworking metrics contain counters that can be incremented by 1 or any arbitrary number.  The difference is in
+ArpNetworking metrics' separation of units of work and tracking individual samples.  This impedance mismatch is solved by storing each
+call to Codahale's counter inc as a separate sample in ArpNetworking metrics.  This means that loops where inc() is called multiple times
+will translate to multiple samples of '1'.  Normally this will not be a problem and the expected value of the Codahale metric will be in
 the 'sum' statistic's value.  Note, however, that using Codahale metrics can lead to unintuitive sample distributions.
 
 ##### Timer
 
-Timers in Codahale and ArpNetworking metrics are very similar.  Their use is functionally equivalent.  The only difference is in the 
+Timers in Codahale and ArpNetworking metrics are very similar.  Their use is functionally equivalent.  The only difference is in the
 reporting of values.  Since ArpNetworking records individual samples, you will have access to statistically correct percentiles, min, max
 and counts.
- 
+
 ##### Meter
 
-Meters exist in Codahale to record rates.  ArpNetworking metrics does not contain meters.  All meters are converted into counters.  
+Meters exist in Codahale to record rates.  ArpNetworking metrics does not contain meters.  All meters are converted into counters.
 Counters in ArpNetworking metrics allow for the computation of the rates that Codahale metrics produces due to the retention of samples.
 
 ##### Histograms
 
-Histograms exist in Codahale to record percentiles.  ArpNetworking metrics retains samples and uses histograms to store the samples.  As a 
+Histograms exist in Codahale to record percentiles.  ArpNetworking metrics retains samples and uses histograms to store the samples.  As a
 result, histograms are converted to counters and provide the same statistics as Codahale histograms provide.
 
 ### Building

@@ -17,14 +17,15 @@ package com.arpnetworking.metrics.codahale;
 
 import com.arpnetworking.metrics.Metrics;
 import com.arpnetworking.metrics.MetricsFactory;
+import com.arpnetworking.metrics.impl.TsdLogSink;
 import com.arpnetworking.metrics.impl.TsdMetricsFactory;
-import com.arpnetworking.metrics.impl.TsdQueryLogSink;
 import com.codahale.metrics.Clock;
 import com.codahale.metrics.ExponentiallyDecayingReservoir;
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.Metric;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.Map;
 import java.util.SortedMap;
@@ -53,9 +54,16 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
      */
     public MetricRegistry() {
         // TODO(barp): Read the settings from a config file [#2]
-        this(new TsdMetricsFactory.Builder()
-                .setSinks(Collections.singletonList(new TsdQueryLogSink.Builder().build()))
-                .build());
+        this(
+                new TsdMetricsFactory.Builder()
+                        .setClusterName(System.getProperty("METRICS_CODAHALE_EXTRA_CLUSTER", "CodahaleCluster"))
+                        .setServiceName(System.getProperty("METRICS_CODAHALE_EXTRA_SERVICE", "CodahaleService"))
+                        .setSinks(Collections.singletonList(
+                                new TsdLogSink.Builder()
+                                        .setDirectory(
+                                                new File(System.getProperty("METRICS_CODAHALE_EXTRA_DIRECTORY", "/tmp")))
+                                        .build()))
+                        .build());
     }
 
     /**
