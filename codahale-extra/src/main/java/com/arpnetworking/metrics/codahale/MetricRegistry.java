@@ -92,7 +92,6 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
     @Override
     public Timer timer(final String name) {
         final Timer timer = getOrCreate(name, _timerBuilder);
-        super.register(name, timer);
         return timer;
     }
 
@@ -102,7 +101,6 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
     @Override
     public Counter counter(final String name) {
         final Counter counter = getOrCreate(name, _counterBuilder);
-        super.register(name, counter);
         return counter;
     }
 
@@ -112,7 +110,6 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
     @Override
     public Histogram histogram(final String name) {
         final Histogram histogram = getOrCreate(name, _histogramBuilder);
-        super.register(name, histogram);
         return histogram;
     }
 
@@ -122,7 +119,6 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
     @Override
     public Meter meter(final String name) {
         final Meter meter = getOrCreate(name, _meterBuilder);
-        super.register(name, meter);
         return meter;
     }
 
@@ -139,13 +135,26 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
     private final SafeRefLock<Metrics> _lock = new SafeRefLock<>(_openMetrics, new ReentrantReadWriteLock(false));
 
     // These are Functions instead of Suppliers so that we don't have to close over them in the getOrCreate function
-    private final Function<String, Counter> _counterBuilder = (n) -> new com.arpnetworking.metrics.codahale.Counter(n, _lock);
-    private final Function<String, Timer> _timerBuilder = (n) -> {
-        return new Timer(n, _lock, Clock.defaultClock());
+    private final Function<String, Counter> _counterBuilder = (n) -> {
+        final Counter counter = new Counter(n, _lock);
+        register(n, counter);
+        return counter;
     };
-    private final Function<String, Histogram> _histogramBuilder =
-            (n) -> new com.arpnetworking.metrics.codahale.Histogram(n, _lock, new ExponentiallyDecayingReservoir());
-    private final Function<String, Meter> _meterBuilder = (n) -> new com.arpnetworking.metrics.codahale.Meter(n, _lock);
+    private final Function<String, Timer> _timerBuilder = (n) -> {
+        final Timer timer = new Timer(n, _lock, Clock.defaultClock());
+        register(n, timer);
+        return timer;
+    };
+    private final Function<String, Histogram> _histogramBuilder = (n) -> {
+        final Histogram histogram = new Histogram(n, _lock, new ExponentiallyDecayingReservoir());
+        register(n, histogram);
+        return histogram;
+    };
+    private final Function<String, Meter> _meterBuilder = (n) -> {
+        final Meter meter = new Meter(n, _lock);
+        register(n, meter);
+        return meter;
+    };
 
     // TODO(barp): Configurable closer period [#3]
     private static final int CLOSER_PERIOD = 500;

@@ -50,10 +50,28 @@ public class MetricRegistryTest {
     }
 
     @Test
+    public void multipleCounter() {
+        final MetricRegistry metricRegistry = new MetricRegistry();
+        final com.codahale.metrics.Counter counter = metricRegistry.counter("foo");
+        Assert.assertThat(counter, CoreMatchers.instanceOf(Counter.class));
+        final com.codahale.metrics.Counter counter2 = metricRegistry.counter("foo");
+        Assert.assertThat(counter2, CoreMatchers.instanceOf(Counter.class));
+    }
+
+    @Test
     public void timer() {
         final MetricRegistry metricRegistry = new MetricRegistry();
         final com.codahale.metrics.Timer timer = metricRegistry.timer("foo");
         Assert.assertThat(timer, CoreMatchers.instanceOf(Timer.class));
+    }
+
+    @Test
+    public void multipleTimer() {
+        final MetricRegistry metricRegistry = new MetricRegistry();
+        final com.codahale.metrics.Timer timer = metricRegistry.timer("foo");
+        Assert.assertThat(timer, CoreMatchers.instanceOf(Timer.class));
+        final com.codahale.metrics.Timer timer2 = metricRegistry.timer("foo");
+        Assert.assertThat(timer2, CoreMatchers.instanceOf(Timer.class));
     }
 
     @Test
@@ -64,10 +82,28 @@ public class MetricRegistryTest {
     }
 
     @Test
+    public void multipleMeter() {
+        final MetricRegistry metricRegistry = new MetricRegistry();
+        final com.codahale.metrics.Meter meter = metricRegistry.meter("foo");
+        Assert.assertThat(meter, CoreMatchers.instanceOf(Meter.class));
+        final com.codahale.metrics.Meter meter2 = metricRegistry.meter("foo");
+        Assert.assertThat(meter2, CoreMatchers.instanceOf(Meter.class));
+    }
+
+    @Test
     public void histogram() {
         final MetricRegistry metricRegistry = new MetricRegistry();
         final com.codahale.metrics.Histogram histogram = metricRegistry.histogram("foo");
         Assert.assertThat(histogram, CoreMatchers.instanceOf(Histogram.class));
+    }
+
+    @Test
+    public void multipleHistogram() {
+        final MetricRegistry metricRegistry = new MetricRegistry();
+        final com.codahale.metrics.Histogram histogram = metricRegistry.histogram("foo");
+        Assert.assertThat(histogram, CoreMatchers.instanceOf(Histogram.class));
+        final com.codahale.metrics.Histogram histogram2 = metricRegistry.histogram("foo");
+        Assert.assertThat(histogram2, CoreMatchers.instanceOf(Histogram.class));
     }
 
     @Test
