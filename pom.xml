@@ -28,7 +28,7 @@
   <packaging>pom</packaging>
   <name>Metrics Client Codahale Extra</name>
   <description />
-  <version>0.4.1</version>
+  <version>0.4.2-SNAPSHOT</version>
 
   <licenses>
     <license>
@@ -56,7 +56,7 @@
     <connection>scm:git:git@github.com:ArpNetworking/metrics-codahale-extra.git</connection>
     <developerConnection>scm:git:git@github.com:ArpNetworking/metrics-codahale-extra.git</developerConnection>
     <url>https://github.com/arpnetworking/metrics-codahale-extra</url>
-    <tag>codahale-extra-parent-0.4.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <modules>
