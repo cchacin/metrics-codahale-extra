@@ -17,9 +17,10 @@ package com.arpnetworking.metrics.codahale;
 
 import com.arpnetworking.metrics.Metrics;
 import com.codahale.metrics.Clock;
-import com.codahale.metrics.ContextInterceptor;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -53,19 +54,25 @@ public class Timer extends com.codahale.metrics.Timer {
 
     @Override
     public Context time() {
-        return new Context(this, _clock);
+        try {
+            return CONTEXT_CONSTRUCTOR.newInstance(this, _clock);
+        } catch (final InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private final String _name;
     private final SafeRefLock<Metrics> _lock;
     private final Clock _clock;
 
-    /**
-     * Context class to stop and record a timer sample.
-     */
-    public static class Context extends ContextInterceptor {
-        Context(final com.codahale.metrics.Timer timer, final Clock clock) {
-            super(timer, clock);
+    private static final Constructor<Context> CONTEXT_CONSTRUCTOR;
+    static {
+        try {
+            CONTEXT_CONSTRUCTOR = Context.class.getDeclaredConstructor(com.codahale.metrics.Timer.class, Clock.class);
+            CONTEXT_CONSTRUCTOR.setAccessible(true);
+        } catch (final NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
+
     }
 }
