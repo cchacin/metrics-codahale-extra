@@ -27,7 +27,7 @@
   <artifactId>codahale-extra-parent</artifactId>
   <packaging>pom</packaging>
   <name>Metrics Client Codahale Extra</name>
-  <description />
+  <description>Extension to metrics-java-client which adapts the client for use in conjunction or in place of the Codahale metrics library.<description>
   <version>0.4.3-SNAPSHOT</version>
 
   <licenses>
