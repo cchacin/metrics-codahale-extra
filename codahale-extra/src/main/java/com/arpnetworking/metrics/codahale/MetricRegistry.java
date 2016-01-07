@@ -72,7 +72,8 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
      * @param metricsFactory The metrics factory to use to create metrics.
      */
     public MetricRegistry(final MetricsFactory metricsFactory) {
-        _openMetrics.set(metricsFactory.create());
+        _metricsFactory = metricsFactory;
+        _openMetrics.set(_metricsFactory.create());
         _closingExecutor = Executors.newSingleThreadScheduledExecutor(
                 (r) -> {
                     final Thread thread = new Thread(r, "metrics-closer");
@@ -80,7 +81,7 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
                     return thread;
                 });
         _closingExecutor.scheduleAtFixedRate(
-                new Closer(_lock, metricsFactory, _openMetrics, this),
+                new Closer(_lock, _metricsFactory, _openMetrics, this),
                 CLOSER_PERIOD,
                 CLOSER_PERIOD,
                 TimeUnit.MILLISECONDS);
@@ -159,6 +160,12 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
     // TODO(barp): Configurable closer period [#3]
     private static final int CLOSER_PERIOD = 500;
 
+    private final MetricsFactory _metricsFactory;
+
+    public MetricsFactory getMetricsFactory() {
+        return _metricsFactory;
+    }
+
     /**
      * Closes a metric instance in a MetricRegistry.  Public to allow cross-package use after shading.
      *
@@ -202,7 +209,7 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
                 }
                 //CHECKSTYLE.OFF: IllegalCatch - we need to catch everything
             } catch (final Exception ex) {
-                //CHECKSTYLE.ON: IlylegalCatch
+                //CHECKSTYLE.ON: IllegalCatch
                 System.err.println(ex);
                 ex.printStackTrace();
 
