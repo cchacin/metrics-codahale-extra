@@ -17,7 +17,9 @@ package com.arpnetworking.metrics.codahale;
 
 import com.arpnetworking.metrics.Metrics;
 import com.arpnetworking.metrics.MetricsFactory;
+import com.arpnetworking.metrics.impl.TsdMetricsFactory;
 import com.codahale.metrics.Gauge;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -40,6 +42,20 @@ public class MetricRegistryTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void getMetricsfactory() {
+        final MetricRegistry metricRegistry = new MetricRegistry(Mockito.mock(MetricsFactory.class));
+        final MetricsFactory metricsFactory = metricRegistry.getMetricsFactory();
+        Assert.assertFalse(metricsFactory instanceof TsdMetricsFactory);
+    }
+
+    @Test
+    public void getDefaultMetricsfactory() {
+        final MetricRegistry metricRegistry = new MetricRegistry();
+        final MetricsFactory metricsFactory = metricRegistry.getMetricsFactory();
+        Assert.assertTrue(metricsFactory instanceof TsdMetricsFactory);
     }
 
     @Test
