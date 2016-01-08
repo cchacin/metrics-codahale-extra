@@ -28,7 +28,7 @@
   <packaging>pom</packaging>
   <name>Metrics Client Codahale Extra</name>
   <description>Extension to metrics-java-client which adapts the client for use in conjunction or in place of the Codahale metrics library.</description>
-  <version>0.4.3-SNAPSHOT</version>
+  <version>0.4.3</version>
 
   <licenses>
     <license>
@@ -76,7 +76,7 @@
     <connection>scm:git:git@github.com:ArpNetworking/metrics-codahale-extra.git</connection>
     <developerConnection>scm:git:git@github.com:ArpNetworking/metrics-codahale-extra.git</developerConnection>
     <url>https://github.com/arpnetworking/metrics-codahale-extra</url>
-    <tag>HEAD</tag>
+    <tag>codahale-extra-parent-0.4.3</tag>
   </scm>
 
   <modules>
