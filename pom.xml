@@ -60,6 +60,16 @@
         <role>developer</role>
       </roles>
     </developer>
+    <developer>
+      <id>cchacin</id>
+      <name>Carlos Chacin</name>
+      <email>cchacin@groupon.com</email>
+      <organization>Groupon</organization>
+      <organizationUrl>http://www.groupon.com</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
   </developers>
 
   <scm>
