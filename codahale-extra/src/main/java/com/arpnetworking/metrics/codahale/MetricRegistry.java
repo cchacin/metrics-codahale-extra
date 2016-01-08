@@ -123,6 +123,10 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
         return meter;
     }
 
+    public MetricsFactory getMetricsFactory() {
+        return _metricsFactory;
+    }
+
     private <T extends Metric> T getOrCreate(final String name, final Function<String, T> builder) {
         @SuppressWarnings("unchecked")
         final T metric = (T) _metrics.computeIfAbsent(name, builder);
@@ -157,14 +161,10 @@ public class MetricRegistry extends com.codahale.metrics.MetricRegistry {
         return meter;
     };
 
-    // TODO(barp): Configurable closer period [#3]
-    private static final int CLOSER_PERIOD = 500;
-
     private final MetricsFactory _metricsFactory;
 
-    public MetricsFactory getMetricsFactory() {
-        return _metricsFactory;
-    }
+    // TODO(barp): Configurable closer period [#3]
+    private static final int CLOSER_PERIOD = 500;
 
     /**
      * Closes a metric instance in a MetricRegistry.  Public to allow cross-package use after shading.
